@@ -18,7 +18,7 @@ import java.io.File;
 public class MainScene extends BorderPane {
     private Canvas countingCanvas=new Canvas(980,980);
     private Button chooseMapDirButton=new Button("Choose map directory");
-    private Button resetButton=new Button("reset count");
+    private Button addButton=new Button("reset count");
     private VBox leftContainer=new VBox(20);
     private VBox centerContainer=new VBox(20);
     private Label count=new Label("Count: 0");
