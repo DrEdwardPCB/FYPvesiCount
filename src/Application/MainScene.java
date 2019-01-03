@@ -45,10 +45,10 @@ public class MainScene extends BorderPane {
     }
     public void setCallback(){
         chooseMapDirButton.setOnAction(e->{
-            var pane=new FileChooser();
+            FileChooser pane=new FileChooser();
             pane.setTitle("choose image");
             pane.setInitialDirectory(new File(System.getProperty("user.dir")));
-            var result=pane.showOpenDialog(stage);
+            File result=pane.showOpenDialog(stage);
             if(result!=null){
             //load in the file resize to 720 on canvas
                 //System.out.println(result.toURI().toString());

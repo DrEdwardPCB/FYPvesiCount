@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FYPcountingApp.iml" filepath="$PROJECT_DIR$/FYPcountingApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FYPvesiCount.iml" filepath="$PROJECT_DIR$/FYPvesiCount.iml" />
     </modules>
   </component>
 </project>
