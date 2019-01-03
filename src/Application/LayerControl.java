@@ -39,7 +39,7 @@ public class LayerControl extends BorderPane {
     private Button deleteButton=new Button("x");
 
     public LayerControl(){
-        canvas=new Canvas(980,980);
+        canvas=new StackCanvas(980,980,1);
         bottomRight.getChildren().addAll(colorDisplay,countDisplay);
         right.getChildren().addAll(nameDisplay,bottomRight);
         left.getChildren().addAll(undoButton,deleteButton);
@@ -55,7 +55,7 @@ public class LayerControl extends BorderPane {
         this.setOnMouseClicked(e->LayerManager.getInstance().changeSelected(this));
         canvas.setOnMouseClicked(e->{
             if(selected=true){
-            GraphicsContext context=canvas.getGraphicsContext2D()
+            GraphicsContext context=canvas.getGraphicsContext2D();
             context.setFill(Color.RED);
             context.fillRect(e.getX()-1,e.getY()-1,3,3);
             count++;
@@ -63,7 +63,7 @@ public class LayerControl extends BorderPane {
             }
         });
     }
-    public Canvas getCanvas(){return this.canvas};
+    public Canvas getCanvas(){return this.canvas;}
 
 
 }

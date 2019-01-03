@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -16,9 +17,9 @@ import javafx.stage.Stage;
 import java.io.File;
 
 public class MainScene extends BorderPane {
-    private Canvas countingCanvas=new Canvas(980,980);
+    private StackCanvas countingCanvas=new StackCanvas(980,980,0);
     private Button chooseMapDirButton=new Button("Choose map directory");
-    private Button addButton=new Button("reset count");
+    private Button resetButton=new Button("reset count");
     private VBox leftContainer=new VBox(20);
     private VBox centerContainer=new VBox(20);
     private Label count=new Label("Count: 0");
@@ -26,13 +27,14 @@ public class MainScene extends BorderPane {
     private TextArea help=new TextArea(Config.HELP);
     private Stage stage;
     private GraphicsContext context=countingCanvas.getGraphicsContext2D();
+    public StackPane layer=new StackPane();
 
     public MainScene(Stage stage){
        // System.out.print("setting scene");
         this.stage=stage;
         this.getStylesheets().add(Config.CSS_STYLES);
         leftContainer.getChildren().addAll(chooseMapDirButton,fileName,count,resetButton,help);
-        centerContainer.getChildren().add(countingCanvas);
+        centerContainer.getChildren().add(layer);
         leftContainer.getStyleClass().add("big-vbox");
         leftContainer.getChildren().stream().filter(Button.class::isInstance).forEach(node -> node.getStyleClass().add("big-button"));
         leftContainer.getChildren().stream().filter(TextArea.class::isInstance).forEach(node -> node.getStyleClass().add("text-area"));
@@ -55,6 +57,7 @@ public class MainScene extends BorderPane {
                 fileName.textProperty().setValue(result.getName());
                 Image image = new Image(result.toURI().toString(), 980, 980, true, true);
                 context.drawImage(image,0,0);
+                layer.getChildren().add(countingCanvas);
             }
         });
         countingCanvas.setOnMouseClicked(e->{

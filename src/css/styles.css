@@ -65,3 +65,7 @@ VBox, HBox {
     -fx-pref-width: 200;
     -fx-pref-height: 500;
 }
+//new
+StackPane{
+    -fx-border-width: 980 980 980 980;
+}
