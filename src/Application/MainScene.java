@@ -3,17 +3,21 @@ package Application;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 
 public class MainScene extends BorderPane {
@@ -22,9 +26,11 @@ public class MainScene extends BorderPane {
     private Button resetButton=new Button("reset count");
     private VBox leftContainer=new VBox(20);
     private VBox centerContainer=new VBox(20);
-    private Label count=new Label("Count: 0");
+    private HBox buttonBar=new HBox(10);
     private Label fileName=new Label("no File chosen");
-    private TextArea help=new TextArea(Config.HELP);
+    private VBox layerControlBar=new VBox(0);
+    //private TextArea help=new TextArea(Config.HELP);
+    private Button addLayerButton=new Button("+");
     private Stage stage;
     private GraphicsContext context=countingCanvas.getGraphicsContext2D();
     public StackPane layer=new StackPane();
@@ -33,7 +39,8 @@ public class MainScene extends BorderPane {
        // System.out.print("setting scene");
         this.stage=stage;
         this.getStylesheets().add(Config.CSS_STYLES);
-        leftContainer.getChildren().addAll(chooseMapDirButton,fileName,count,resetButton,help);
+        buttonBar.getChildren().addAll(addLayerButton,resetButton);
+        leftContainer.getChildren().addAll(chooseMapDirButton,fileName,buttonBar,new Separator(),layerControlBar);
         centerContainer.getChildren().add(layer);
         leftContainer.getStyleClass().add("big-vbox");
         leftContainer.getChildren().stream().filter(Button.class::isInstance).forEach(node -> node.getStyleClass().add("big-button"));
@@ -60,11 +67,29 @@ public class MainScene extends BorderPane {
                 layer.getChildren().add(countingCanvas);
             }
         });
-        countingCanvas.setOnMouseClicked(e->{
+        addLayerButton.setOnAction(e->{
+            if(layer.getChildren().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Import image first","Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            String name=JOptionPane.showInputDialog("enter the name of new layer");
+            try {
+                LayerControl newLayer=LayerManager.getInstance().addLayer(name);
+                layer.getChildren().add(newLayer.getCanvas());
+                layerControlBar.getChildren().add(newLayer);
+                layerControlBar.getChildren().add(new Separator());
+
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(null,"Name duplication","Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+
+        });
+        /*countingCanvas.setOnMouseClicked(e->{
             context.setFill(Color.RED);
             context.fillRect(e.getX()-1,e.getY()-1,3,3);
             count.textProperty().setValue("Count: "+((Integer)((Integer.parseInt(count.textProperty().get().replaceFirst("Count: ","")))+1)).toString());
-        });
-        resetButton.setOnAction(e->count.textProperty().setValue("Count: 0"));
+        });*/
+        //resetButton.setOnAction(e->count.textProperty().setValue("Count: 0"));
     }
 }

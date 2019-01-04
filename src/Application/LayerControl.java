@@ -1,12 +1,11 @@
 package Application;
 
+import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import java.util.Stack;
 
@@ -21,16 +20,16 @@ public class LayerControl extends BorderPane {
 
 
     //variable
-    private Canvas canvas;
+    private StackCanvas canvas;
     private int count=0;
     private String name;
-    private Color color=new Color(((int)Math.random()*255),((int)Math.random()*255),((int)Math.random()*255),1.0);
-    private Stack<Canvas> stack;
+    private Color color=Color.hsb((Math.random()*360),1.0,1.0);
+    private Stack<StackCanvas> stack;
     private boolean selected=false;
 
     //UIelement
-    private HBox right=new HBox();
-    private VBox bottomRight=new VBox();
+    private HBox right=new HBox(5);
+    private HBox bottomRight=new HBox(0);
     private VBox left=new VBox();
     private Label nameDisplay=new Label();
     private Label colorDisplay=new Label();
@@ -38,11 +37,15 @@ public class LayerControl extends BorderPane {
     private Button undoButton=new Button("⎌");
     private Button deleteButton=new Button("x");
 
-    public LayerControl(){
-        canvas=new StackCanvas(980,980,1);
+    public LayerControl(String name,int index){
+        canvas=new StackCanvas(980,980,index);
+        this.name=name;
+        nameDisplay.textProperty().setValue(this.name);
+        colorDisplay.textProperty().set("   ");
+        colorDisplay.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
         bottomRight.getChildren().addAll(colorDisplay,countDisplay);
-        right.getChildren().addAll(nameDisplay,bottomRight);
-        left.getChildren().addAll(undoButton,deleteButton);
+        left.getChildren().addAll(nameDisplay,bottomRight);
+        right.getChildren().addAll(undoButton,deleteButton);
         this.setRight(right);
         this.setLeft(left);
         setStyle();
@@ -52,18 +55,24 @@ public class LayerControl extends BorderPane {
 
     }
     public void setCallback(){
-        this.setOnMouseClicked(e->LayerManager.getInstance().changeSelected(this));
+        this.setOnMouseClicked(e->{
+            LayerManager.getInstance().changeSelected(this);
+            System.out.println("selected");
+        });
         canvas.setOnMouseClicked(e->{
-            if(selected=true){
-            GraphicsContext context=canvas.getGraphicsContext2D();
-            context.setFill(Color.RED);
-            context.fillRect(e.getX()-1,e.getY()-1,3,3);
-            count++;
-            countDisplay.textProperty().setValue("Count: "+count);
+            if(selected==true){
+                GraphicsContext context=canvas.getGraphicsContext2D();
+                context.setFill(color);
+                context.save();
+                context.fillRect(e.getX()-1,e.getY()-1,3,3);
+                count++;
+                countDisplay.textProperty().setValue("Count: "+count);
             }
         });
-    }
-    public Canvas getCanvas(){return this.canvas;}
 
+    }
+    public StackCanvas getCanvas(){return this.canvas;}
+    public String getName(){return this.name;}
+    public void setSelected(boolean select){this.selected=select;}
 
 }
