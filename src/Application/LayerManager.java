@@ -18,7 +18,6 @@ public class LayerManager {
         return layerManger;
     }
     public LayerControl addLayer(String name)throws Exception{
-            boolean error=false;
             ArrayList<LayerControl> tempLayerList = (ArrayList<LayerControl>) layerlist.stream().filter(layerControl -> layerControl.getName().equals(name)).collect(Collectors.toList());
             if(!tempLayerList.isEmpty()){
                throw new Exception("name duplication");
@@ -32,17 +31,27 @@ public class LayerManager {
 
             return selectedLayer;
     }
-    public void deleteLayer(){
+    public void deleteLayer(LayerControl lc){
+        layerlist.remove(lc);
+        MainScene.getInstance().layer.getChildren().remove(lc.getCanvas());
+        MainScene.getInstance().layerControlBar.getChildren().remove(lc);
+        if(layerlist.isEmpty()){
+            this.selectedLayer=null;
+        }else{
+            changeSelected(layerlist.get(0));
+        }
 
     }
     public LayerControl getSelectedLayer(){
         return this.selectedLayer;
     }
+    public ArrayList<LayerControl> getAllLayer(){
+        return this.layerlist;
+    }
     public void changeSelected(LayerControl lc){
         this.selectedLayer.setSelected(false);
         lc.setSelected(true);
-        var canvas = lc.getCanvas();
-        var parent = lc.getCanvas().getParent();
+        lc.getCanvas().toFront();
 
         this.selectedLayer=lc;
 

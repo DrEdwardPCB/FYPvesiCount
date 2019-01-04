@@ -1,5 +1,6 @@
 package Application;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,6 +20,7 @@ import javafx.stage.Stage;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
 
 public class MainScene extends BorderPane {
     private StackCanvas countingCanvas=new StackCanvas(980,980,0);
@@ -28,13 +30,13 @@ public class MainScene extends BorderPane {
     private VBox centerContainer=new VBox(20);
     private HBox buttonBar=new HBox(10);
     private Label fileName=new Label("no File chosen");
-    private VBox layerControlBar=new VBox(0);
+    public VBox layerControlBar=new VBox(0);
     //private TextArea help=new TextArea(Config.HELP);
     private Button addLayerButton=new Button("+");
     private Stage stage;
     private GraphicsContext context=countingCanvas.getGraphicsContext2D();
     public StackPane layer=new StackPane();
-
+    public static MainScene thisscene;
     public MainScene(Stage stage){
        // System.out.print("setting scene");
         this.stage=stage;
@@ -50,7 +52,9 @@ public class MainScene extends BorderPane {
         centerContainer.setAlignment(Pos.CENTER);
         this.setLeft(leftContainer);
         this.setCenter(centerContainer);
+
         setCallback();
+        thisscene=this;
     }
     public void setCallback(){
         chooseMapDirButton.setOnAction(e->{
@@ -77,12 +81,22 @@ public class MainScene extends BorderPane {
                 LayerControl newLayer=LayerManager.getInstance().addLayer(name);
                 layer.getChildren().add(newLayer.getCanvas());
                 layerControlBar.getChildren().add(newLayer);
-                layerControlBar.getChildren().add(new Separator());
 
             }catch(Exception ex){
                 JOptionPane.showMessageDialog(null,"Name duplication","Error", JOptionPane.ERROR_MESSAGE);
                 ex.printStackTrace();
             }
+
+        });
+        resetButton.setOnAction(e->{
+            fileName.textProperty().setValue("no File chosen");
+            var haha=LayerManager.getInstance().getAllLayer();
+            var hehe=new ArrayList<LayerControl>();
+            for(var lc:haha){
+                hehe.add(lc);
+            }
+            hehe.stream().forEach(lc->{System.out.println(lc);LayerManager.getInstance().deleteLayer(lc);});
+            layer.getChildren().remove(countingCanvas);
 
         });
         /*countingCanvas.setOnMouseClicked(e->{
@@ -91,5 +105,8 @@ public class MainScene extends BorderPane {
             count.textProperty().setValue("Count: "+((Integer)((Integer.parseInt(count.textProperty().get().replaceFirst("Count: ","")))+1)).toString());
         });*/
         //resetButton.setOnAction(e->count.textProperty().setValue("Count: 0"));
+    }
+    public static MainScene getInstance(){
+        return thisscene;
     }
 }
