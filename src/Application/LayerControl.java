@@ -49,6 +49,7 @@ public class LayerControl extends BorderPane {
         undoButton.setGraphic(new ImageView(getClass().getResource("../assest/undo.png").toExternalForm()));
         deleteButton.setGraphic(new ImageView(getClass().getResource("../assest/delete.png").toExternalForm()));
         nameDisplay.textProperty().setValue(this.name);
+        colorPicker.setStyle("-fx-color-label-visible: false ;");
         bottomRight.getChildren().addAll(colorPicker,countDisplay);
         left.getChildren().addAll(nameDisplay,bottomRight);
         right.getChildren().addAll(undoButton,deleteButton);
@@ -103,7 +104,10 @@ public class LayerControl extends BorderPane {
     }
     public StackCanvas getCanvas(){return this.canvas;}
     public String getName(){return this.name;}
+    public int getCount(){return this.count;}
     public void setSelected(boolean select){this.selected=select;}
+    public Stack<MouseEvent> getStack(){return this.eventstack;}
+    public Color getColor(){return this.color;}
     public void reset(){
         this.count=0;
         this.countDisplay.textProperty().setValue("Count: "+count);

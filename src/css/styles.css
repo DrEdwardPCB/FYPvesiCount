@@ -31,6 +31,9 @@ VBox, HBox {
     -fx-padding: 20 20 20 20;
     -fx-alignment: top-center;
     -fx-background-color: #ccc;
+    -fx-pref-width:426;
+    -fx-min-width:426;
+    -fx-max-width:426;
 }
 
 .bottom-menu {

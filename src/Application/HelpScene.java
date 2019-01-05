@@ -15,6 +15,7 @@ public class HelpScene extends BorderPane {
         returnButton.setGraphic(new ImageView(getClass().getResource("../assest/undo.png").toExternalForm()));
         toolBar.getItems().add(returnButton);
         description.setWrapText(true);
+        description.setEditable(false);
         description.setPrefSize(980,980);
         description.setText("FYPvesiCount\n" +
                 "Description:\n" +

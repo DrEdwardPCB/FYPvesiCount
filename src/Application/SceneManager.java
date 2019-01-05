@@ -29,6 +29,18 @@ public class SceneManager {
                 stage.setScene(hs);
                 break;
             }
+            case ExportCSVScene:{
+                stage.setScene(new Scene(new ExportCSVScene(stage),1920,1013));
+                break;
+            }
+            case ExportImageScene:{
+                stage.setScene(new Scene(new ExportImageScene(stage),1920,1013));
+                break;
+            }
+            case ExportGraphScene:{
+                stage.setScene(new Scene(new ExportGraphScene(stage),1920,1013));
+                break;
+            }
         }
         stage.show();
     }

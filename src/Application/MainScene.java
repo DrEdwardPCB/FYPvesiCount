@@ -85,7 +85,7 @@ public class MainScene extends BorderPane {
         menuBar.getMenus().add(fileMenu);
         importButtonTool.setGraphic(new ImageView(getClass().getResource("../assest/add.png").toExternalForm()));
         resetButtonTool.setGraphic(new ImageView(getClass().getResource("../assest/reset.png").toExternalForm()));
-        helpButtonTool.setGraphic(new ImageView(getClass().getResource("../assest/undo.png").toExternalForm()));
+        helpButtonTool.setGraphic(new ImageView(getClass().getResource("../assest/info.png").toExternalForm()));
         toolBar.getItems().addAll(importButtonTool,resetButtonTool,new Separator(),helpButtonTool);
         upper.getChildren().addAll(menuBar,toolBar);
         this.setTop(upper);
@@ -184,6 +184,9 @@ public class MainScene extends BorderPane {
             count.textProperty().setValue("Count: "+((Integer)((Integer.parseInt(count.textProperty().get().replaceFirst("Count: ","")))+1)).toString());
         });*/
         //resetButton.setOnAction(e->count.textProperty().setValue("Count: 0"));
+        exportGraphItem.setOnAction(e->SceneManager.getInstance().setScene(SCENELIST.ExportGraphScene));
+        exportCsvItem.setOnAction(e->SceneManager.getInstance().setScene(SCENELIST.ExportCSVScene));
+        exportImageItem.setOnAction(e->SceneManager.getInstance().setScene(SCENELIST.ExportImageScene));
     }
     public static MainScene getInstance(){
         return thisscene;
