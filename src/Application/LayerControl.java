@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -39,12 +40,14 @@ public class LayerControl extends BorderPane {
     private Label nameDisplay=new Label();
     private ColorPicker colorPicker=new ColorPicker(color);
     private Label countDisplay=new Label("Count: 0");
-    private Button undoButton=new Button("⎌");
-    private Button deleteButton=new Button("x");
+    private Button undoButton=new Button();
+    private Button deleteButton=new Button();
 
     public LayerControl(String name,int index){
         canvas=new StackCanvas(980,980,index);
         this.name=name;
+        undoButton.setGraphic(new ImageView(getClass().getResource("../assest/undo.png").toExternalForm()));
+        deleteButton.setGraphic(new ImageView(getClass().getResource("../assest/delete.png").toExternalForm()));
         nameDisplay.textProperty().setValue(this.name);
         bottomRight.getChildren().addAll(colorPicker,countDisplay);
         left.getChildren().addAll(nameDisplay,bottomRight);
@@ -101,5 +104,10 @@ public class LayerControl extends BorderPane {
     public StackCanvas getCanvas(){return this.canvas;}
     public String getName(){return this.name;}
     public void setSelected(boolean select){this.selected=select;}
+    public void reset(){
+        this.count=0;
+        this.countDisplay.textProperty().setValue("Count: "+count);
+        this.getCanvas().getGraphicsContext2D().clearRect(0,0,980,980);
+    }
 
 }

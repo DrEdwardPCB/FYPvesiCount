@@ -1,6 +1,6 @@
 package Application;
 
 enum SCENELIST{
-    MainScene,HelpScene
+    MainScene,HelpScene,ExportGraphScene,ExportImageScene,ExportCSVScene
 
 }

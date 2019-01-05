@@ -10,8 +10,8 @@ public class SceneManager {
     private Stage stage;
     private SceneManager(){
         stage=CountingApplication.stage;
-        ms=new Scene(new MainScene(stage),1200,1000);
-        ms=new Scene(new HelpScene(stage),1200,1000);
+        ms=new Scene(new MainScene(stage),1920,1013);
+        hs=new Scene(new HelpScene(stage),1920,1013);
     }
     public static SceneManager getInstance(){
         if(sm==null){
@@ -30,6 +30,7 @@ public class SceneManager {
                 break;
             }
         }
+        stage.show();
     }
 }
 

@@ -15,8 +15,7 @@ public class CountingApplication extends Application {
     public void start(Stage primaryStage){
         this.stage=primaryStage;
         primaryStage.setTitle("FYPvesiCount");
-        primaryStage.setScene(new Scene(new MainScene(primaryStage),1200,1000));
-        primaryStage.show();
+        SceneManager.getInstance().setScene(SCENELIST.MainScene);
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
