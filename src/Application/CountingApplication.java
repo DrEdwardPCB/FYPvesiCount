@@ -7,11 +7,13 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class CountingApplication extends Application {
+    public static Stage stage;
     public static void main(String[] args){
         launch(args);
     }
     @Override
     public void start(Stage primaryStage){
+        this.stage=primaryStage;
         primaryStage.setTitle("FYPvesiCount");
         primaryStage.setScene(new Scene(new MainScene(primaryStage),1200,1000));
         primaryStage.show();
